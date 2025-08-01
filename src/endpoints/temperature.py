@@ -1,6 +1,6 @@
 """This module contains the function to get the average temperature from the OpenSenseMap API."""
 from datetime import datetime, timedelta
-import requests
+import requests # type: ignore
 
 
 async def get_avg_temp() -> float:
