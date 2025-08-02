@@ -38,7 +38,7 @@ jobs:
       run: docker build -t hivebox-app .
 
     - name: Run unit tests
-      run: PYTHONPATH=src pytest tests/
+      run: PYTHONPATH=src pytest tests/ 
       
     - name: Test version output
       run: |
