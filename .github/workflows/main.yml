@@ -25,6 +25,9 @@ jobs:
         pip install -r requirements.txt
         pip install pylint pytest
         pip install -r requirements.txt
+    
+    - name: Check installed packages
+      run: pip show httpx
 
     - name: Lint Python code
       run: |
