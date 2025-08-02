@@ -38,8 +38,8 @@ jobs:
       run: docker build -t hivebox-app .
 
     - name: Run unit tests
-      run: pytest tests/
-
+      run: PYTHONPATH=src pytest tests/
+      
     - name: Test version output
       run: |
         docker run --rm hivebox-app | grep "0.0.1"
