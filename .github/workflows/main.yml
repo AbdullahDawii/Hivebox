@@ -34,6 +34,7 @@ jobs:
       run: |
         pylint main.py version.py || true
         PYTHONPATH=src pylint main.py version.py || true
+        PYTHONPATH=. pytest tests/
 
     - name: Lint Dockerfile
       uses: hadolint/hadolint-action@v3.1.0
