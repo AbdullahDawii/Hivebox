@@ -1,5 +1,7 @@
 APP_VERSION = "0.0.1"
 
+from src.main import app
+
 def get_version() -> str:
     return APP_VERSION
 
