@@ -1,0 +1,79 @@
+pipeline {
+    agent any
+
+    triggers {
+        // تشغيل عند أي push على الفرع main أو pull request
+        pollSCM('H/5 * * * *') // مثال: يفحص الكود كل 5 دقايق
+    }
+
+    stages {
+        stage('Checkout the code') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Set up Python') {
+            steps {
+                sh '''
+                sudo apt-get update
+                sudo apt-get install -y python3.10 python3.10-venv python3-pip
+                python3.10 --version
+                '''
+            }
+        }
+
+        stage('Install dependencies') {
+            steps {
+                sh '''
+                pip install -r requirements.txt
+                pip install pylint pytest
+                '''
+            }
+        }
+
+        stage('Check installed packages') {
+            steps {
+                sh 'pip show httpx'
+            }
+        }
+
+        stage('Lint Python code') {
+            steps {
+                sh '''
+                pylint main.py version.py || true
+                PYTHONPATH=src pylint main.py version.py || true
+                PYTHONPATH=. pytest tests/
+                '''
+            }
+        }
+
+        stage('Lint Dockerfile') {
+            steps {
+                sh '''
+                docker run --rm -i hadolint/hadolint < Dockerfile
+                '''
+            }
+        }
+
+        stage('Build Docker image') {
+            steps {
+                sh 'docker build -t hivebox-app .'
+            }
+        }
+
+        stage('Run unit tests') {
+            steps {
+                sh 'PYTHONPATH=src pytest tests/'
+            }
+        }
+
+        stage('Test version output') {
+            steps {
+                sh '''
+                docker run --rm hivebox-app | grep "0.0.1"
+                '''
+            }
+        }
+    }
+}
