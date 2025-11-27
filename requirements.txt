@@ -1,18 +1,17 @@
-# FastAPI framework
-fastapi==0.115.1  # تأكد من رقم الإصدار الصحيح (لأن 0.115.12 مش موجود غالبًا)
 
 # ASGI server
 uvicorn==0.23.2
-
 # HTTP client
 requests==2.31.0
 httpx==0.27.0
-
-# CLI tools
-fastapi-cli==0.0.7
-
-# Testing
-pytest==8.2.2
-
 # Code linting
 pylint==3.3.3
+Flask==3.0.2
+requests==2.32.3
+pytest
+pylint
+prometheus_client==0.20.0
+pytest-cov
+redis==5.0.3
+minio==7.2.5
+boto3
