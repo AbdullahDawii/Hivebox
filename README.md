@@ -52,4 +52,21 @@ Here is a pre-start checklist:
 
 ## Implementation
 
-** ADD YOUR IMPLEMENTATION DOCUMENTATION HERE **
+## Implementation
+
+### Endpoints
+- `/version` — returns the current app version.
+- `/temperature` — returns the average temperature from configured senseBoxes (data no older than 1 hour), with a status field (Too Cold / Good / Too Hot).
+- `/metrics` — exposes Prometheus metrics.
+- `/store` — manually triggers storing sensor data to MinIO.
+- `/readyz` — readiness probe endpoint.
+
+### How to run locally
+1. Clone the repo.
+2. Run `docker-compose up --build`.
+3. The app will be available on `http://localhost:<port>`.
+
+### Tech stack
+- Python (Flask/FastAPI)
+- Redis/Valkey for caching
+- MinIO for storage
