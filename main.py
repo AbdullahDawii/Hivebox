@@ -115,9 +115,9 @@ def temperature():
             "average_temperature": round(avg_temp, 2),
             "unit": "°C",
             "status": status,
-            "sources": len(temps)
+            "sources": len(temps),
+            "timestamp": now.strftime("%Y-%m-%dT%H:%M:%SZ")
         }
-
         redis_client.setex(cache_key, timedelta(minutes=5), jsonify(result).get_data(as_text=True))
         return jsonify(result)
     else:
