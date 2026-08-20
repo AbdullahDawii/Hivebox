@@ -3,3 +3,7 @@ __pycache__/
 venv/
 kubectl
 *.deb
+terrascan
+terrascan.tar.gz
+terrascan
+terrascan.tar.gz
