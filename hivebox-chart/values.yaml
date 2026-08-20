@@ -1,0 +1,39 @@
+replicaCount: 1
+
+image:
+  repository: hivebox-app
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 5000
+  nodePort: 30050
+
+env:
+  REDIS_HOST: redis
+  MINIO_ENDPOINT: minio:9000
+  MINIO_ACCESS_KEY: minio_admin
+  MINIO_SECRET_KEY: minio_strong_password
+  MINIO_BUCKET: hivebox-data
+
+autoscaling:
+  enabled: false
+ingress:
+  enabled: false
+serviceAccount:
+  create: false
+  name: ""
+resources: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
+podAnnotations: {}
+podLabels: {}
+imagePullSecrets: []
+podSecurityContext: {}
+securityContext: {}
+volumes: []
+volumeMounts: []
+httpRoute:
+  enabled: false
