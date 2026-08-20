@@ -52,8 +52,6 @@ Here is a pre-start checklist:
 
 ## Implementation
 
-## Implementation
-
 ### Endpoints
 - `/version` — returns the current app version.
 - `/temperature` — returns the average temperature from configured senseBoxes (data no older than 1 hour), with a status field (Too Cold / Good / Too Hot).
@@ -63,13 +61,18 @@ Here is a pre-start checklist:
 
 ### How to run locally
 1. Clone the repo.
-2. Run `docker-compose up --build`.
-3. The app will be available on `http://localhost:<port>`.
+2. Run `docker compose up --build`.
+3. The app will be available on `http://localhost:5050`.
 
 ### Tech stack
-- Python (Flask/FastAPI)
+- Python (Flask)
 - Redis/Valkey for caching
-- MinIO for storage
+- MinIO for object storage
+- Kubernetes (KIND) for orchestration
+- Helm for packaging and deployment
+- Jenkins (on Kubernetes) for CI/CD
+- Terraform for cluster provisioning
+- Prometheus + Grafana for monitoring
 
 ## Configuration
 
@@ -78,3 +81,18 @@ The app reads temperature data from these senseBox IDs by default (configurable 
 - `5eba5fbad46fb8001b799786`
 - `5c21ff8f919bf8001adf2488`
 - `5ade1acf223bd80019a1011c`
+
+## CI/CD
+
+Jenkins runs on Kubernetes and is triggered on every push. The pipeline runs unit tests inside a Python container, then builds the Docker image using Kaniko.
+
+## Kubernetes deployment
+
+Deploy via Helm:
+
+    helm install hivebox-app hivebox-chart
+
+## Testing
+
+- Unit tests: pytest tests/
+- E2E tests (against a running instance): pytest tests/e2e/
