@@ -14,6 +14,16 @@ spec:
     image: gcr.io/kaniko-project/executor:debug
     command: ["sleep"]
     args: ["infinity"]
+    volumeMounts:
+    - name: docker-config
+      mountPath: /kaniko/.docker
+  volumes:
+  - name: docker-config
+    secret:
+      secretName: ghcr-secret
+      items:
+      - key: .dockerconfigjson
+        path: config.json
 '''
         }
     }
@@ -37,8 +47,7 @@ spec:
                         /kaniko/executor \
                         --context `pwd` \
                         --dockerfile `pwd`/Dockerfile \
-                        --no-push \
-                        --destination hivebox-app:latest
+                        --destination ghcr.io/abdullahdawii/hivebox-app:latest
                     '''
                 }
             }
