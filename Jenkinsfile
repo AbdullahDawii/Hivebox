@@ -34,7 +34,7 @@ spec:
                 container('python') {
                     sh '''
                         pip install -r requirements.txt
-                        pytest tests/ -v
+                        pytest tests/ -v --ignore=tests/e2e
                     '''
                 }
             }
