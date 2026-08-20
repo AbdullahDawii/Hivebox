@@ -27,8 +27,8 @@ spec:
               path: /readyz
               port: {{ .Values.service.port }}
             initialDelaySeconds: 5
-            periodSeconds: 10
-
+            periodSeconds: 15
+            timeoutSeconds: 10
 
           env:
             {{- range $key, $value := .Values.env }}
