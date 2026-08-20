@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hivebox-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hivebox-app
+  template:
+    metadata:
+      labels:
+        app: hivebox-app
+    spec:
+      containers:
+      - name: hivebox-app
+        image: hivebox-app:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
+        env:
+        - name: REDIS_HOST
+          value: "redis"
+        - name: MINIO_ENDPOINT
+          value: "minio:9000"
+        - name: MINIO_ACCESS_KEY
+          value: "minio_admin"
+        - name: MINIO_SECRET_KEY
+          value: "minio_strong_password"
+        - name: MINIO_BUCKET
+          value: "hivebox-data"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hivebox-app
+spec:
+  type: NodePort
+  selector:
+    app: hivebox-app
+  ports:
+  - port: 5000
+    targetPort: 5000
+    nodePort: 30050
