@@ -70,3 +70,11 @@ Here is a pre-start checklist:
 - Python (Flask/FastAPI)
 - Redis/Valkey for caching
 - MinIO for storage
+
+## Configuration
+
+### senseBox IDs
+The app reads temperature data from these senseBox IDs by default (configurable via `SENSEBOX_IDS` env var, comma-separated):
+- `5eba5fbad46fb8001b799786`
+- `5c21ff8f919bf8001adf2488`
+- `5ade1acf223bd80019a1011c`
