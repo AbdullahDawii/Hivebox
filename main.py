@@ -36,9 +36,7 @@ minio_client = Minio(
     secure=False
 )
 
-# Create the bucket if it does not exist
-if not minio_client.bucket_exists(MINIO_BUCKET):
-    minio_client.make_bucket(MINIO_BUCKET)
+# Bucket check moved to __main__ block below
 
 # Store file to MinIO
 
@@ -172,7 +170,6 @@ def start_periodic_storage():
             time.sleep(300)
     threading.Thread(target=loop, daemon=True).start()
 
-start_periodic_storage()
 
 @app.route("/readyz")
 def readyz():
@@ -208,4 +205,7 @@ def readyz():
         return jsonify({"status": "not ready"}), 503
 
 if __name__ == "__main__":
+    if not minio_client.bucket_exists(MINIO_BUCKET):
+        minio_client.make_bucket(MINIO_BUCKET)
+    start_periodic_storage()
     app.run(debug=True, host='0.0.0.0')
