@@ -29,6 +29,23 @@ spec:
     }
 
     stages {
+        stage('Lint') {
+            steps {
+                container('python') {
+                    sh '''
+                        pip install pylint
+                        pylint main.py || true
+                    '''
+                }
+                container('kaniko') {
+                    sh '''
+                        wget -q https://github.com/hadolint/hadolint/releases/latest/download/hadolint-Linux-x86_64 -O /tmp/hadolint
+                        chmod +x /tmp/hadolint
+                        /tmp/hadolint Dockerfile || true
+                    '''
+                }
+            }
+        }
         stage('Test') {
             steps {
                 container('python') {
