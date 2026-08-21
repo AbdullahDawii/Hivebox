@@ -1,15 +1,15 @@
-from flask import Flask, jsonify, Response
-import requests
-import os
-from datetime import datetime, timedelta, timezone
-from prometheus_client import generate_latest, CONTENT_TYPE_LATEST, Counter
-import redis
 import json
+import os
 import threading
 import time
-from minio import Minio
-from minio.error import S3Error
+from datetime import datetime, timedelta, timezone
 from io import BytesIO
+
+import redis
+import requests
+from flask import Flask, Response, jsonify
+from minio import Minio
+from prometheus_client import CONTENT_TYPE_LATEST, Counter, generate_latest
 
 app = Flask(__name__)
 
@@ -180,7 +180,7 @@ def readyz():
             response = requests.get(url, timeout=5)
             response.raise_for_status()
             reachable += 1
-        except:
+        except Exception:
             pass
 
     cache_key = "temperature_data"
@@ -195,7 +195,7 @@ def readyz():
                 age = datetime.now(timezone.utc) - timestamp
                 if age < timedelta(minutes=5):
                     cache_valid = True
-        except:
+        except Exception:
             pass
 
     required_reachable = (len(sensebox_ids) // 2) + 1
