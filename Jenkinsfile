@@ -59,6 +59,16 @@ spec:
                 }
             }
         }
+        stage('E2E Tests') {
+            steps {
+                container('python') {
+                    sh '''
+                        pip install -r requirements.txt
+                        APP_BASE_URL=http://hivebox-app-hivebox-chart.default.svc.cluster.local:5000 pytest tests/e2e/ -v || true
+                    '''
+                }
+            }
+        }
         stage('Build') {
             steps {
                 container('kaniko') {
