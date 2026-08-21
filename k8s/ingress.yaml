@@ -4,6 +4,10 @@ metadata:
   name: hivebox-ingress
 spec:
   ingressClassName: nginx
+  tls:
+  - hosts:
+    - hivebox.local
+    secretName: hivebox-tls-secret
   rules:
   - host: hivebox.local
     http:
@@ -23,6 +27,10 @@ metadata:
   namespace: jenkins
 spec:
   ingressClassName: nginx
+  tls:
+  - hosts:
+    - jenkins.local
+    secretName: jenkins-tls-secret
   rules:
   - host: jenkins.local
     http:
@@ -42,6 +50,10 @@ metadata:
   namespace: monitoring
 spec:
   ingressClassName: nginx
+  tls:
+  - hosts:
+    - grafana.local
+    secretName: grafana-tls-secret
   rules:
   - host: grafana.local
     http:
