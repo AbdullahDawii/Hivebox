@@ -17,6 +17,10 @@ spec:
     volumeMounts:
     - name: docker-config
       mountPath: /kaniko/.docker
+  - name: hadolint
+    image: hadolint/hadolint:latest-debian
+    command: ["sleep"]
+    args: ["infinity"]
   volumes:
   - name: docker-config
     secret:
@@ -27,22 +31,21 @@ spec:
 '''
         }
     }
-
     stages {
         stage('Lint') {
             steps {
                 container('python') {
                     sh '''
-                        pip install pylint
+                        pip install -r requirements.txt
                         pylint main.py || true
                     '''
                 }
-                container('kaniko') {
-                    sh '''
-                        wget -q https://github.com/hadolint/hadolint/releases/latest/download/hadolint-Linux-x86_64 -O /tmp/hadolint
-                        chmod +x /tmp/hadolint
-                        /tmp/hadolint Dockerfile || true
-                    '''
+            }
+        }
+        stage('Dockerfile Lint') {
+            steps {
+                container('hadolint') {
+                    sh 'hadolint Dockerfile || true'
                 }
             }
         }
@@ -56,7 +59,6 @@ spec:
                 }
             }
         }
-
         stage('Build') {
             steps {
                 container('kaniko') {
