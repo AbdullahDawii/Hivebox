@@ -1,5 +1,5 @@
 #ASGI server
-uvicorn==0.23.2
+uvicorn==0.52.3
 # HTTP client
 # لاحظ أننا أبقينا على الإصدار الأحدث 2.32.3 وحذفنا 2.31.0
 requests==2.32.3 
