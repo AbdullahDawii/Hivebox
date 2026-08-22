@@ -5,6 +5,7 @@ kubectl
 *.deb
 terrascan
 terrascan.tar.gz
-terrascan
-terrascan.tar.gz
 .scannerwork/
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.backup
