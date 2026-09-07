@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-log-analyzer
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ai-log-analyzer
+  template:
+    metadata:
+      labels:
+        app: ai-log-analyzer
+    spec:
+      containers:
+        - name: ai-log-analyzer
+          image: ai-log-analyzer:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
+          env:
+            - name: MINIO_ENDPOINT
+              value: "minio.default.svc.cluster.local:9000"
+            - name: MINIO_ACCESS_KEY
+              value: "minio_admin"
+            - name: MINIO_SECRET_KEY
+              value: "minio_strong_password"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-log-analyzer
+  namespace: default
+  labels:
+    app: ai-log-analyzer
+spec:
+  selector:
+    app: ai-log-analyzer
+  ports:
+    - port: 8000
+      targetPort: 8000
+      name: metrics

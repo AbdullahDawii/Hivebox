@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: ai-log-analyzer-alerts
+  namespace: monitoring
+  labels:
+    release: monitoring
+spec:
+  groups:
+    - name: ai-log-analyzer
+      rules:
+        - alert: LogAnomalyDetected
+          expr: hivebox_log_anomaly_score < 0.0
+          for: 30s
+          labels:
+            severity: warning
+          annotations:
+            summary: "تم رصد نمط غير طبيعي في حركة الطلبات"
+            description: "anomaly_score = {{ $value }} لمدة دقيقتين متواصلتين. راجع logs التطبيق للتأكد من السبب."

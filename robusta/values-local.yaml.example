@@ -1,0 +1,26 @@
+clusterName: hivebox-cluster
+
+globalConfig:
+  signing_key: YOUR_SIGNING_KEY
+
+sinksConfig:
+- telegram_sink:
+    name: telegram_alerts
+    bot_token: YOUR_TELEGRAM_BOT_TOKEN
+    chat_id: YOUR_CHAT_ID
+    send_files: true
+
+enablePlatformPlaybooks: false
+enabledManagedConfiguration: false
+enableHolmesGPT: false
+
+runner:
+  sendAdditionalTelemetry: false
+
+customPlaybooks:
+- triggers:
+  - on_pod_crash_loop:
+      namespace: default
+      name_prefix: crash-test
+  actions:
+  - delete_pod: {}

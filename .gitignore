@@ -9,3 +9,8 @@ terrascan.tar.gz
 terraform/.terraform/
 terraform/*.tfstate
 terraform/*.tfstate.backup
+
+# Robusta secrets
+robusta/values-local.yaml
+robusta/generated_values.yaml
+robusta/robusta-secrets.yaml

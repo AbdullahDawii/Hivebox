@@ -1,0 +1,32 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: telegram-alerts
+  namespace: default
+  labels:
+    release: monitoring
+spec:
+  route:
+    groupBy: ["alertname"]
+    groupWait: 30s
+    groupInterval: 5m
+    repeatInterval: 1h
+    receiver: "telegram"
+    matchers:
+      - name: alertname
+        value: LogAnomalyDetected
+        matchType: "="
+  receivers:
+    - name: "telegram"
+      telegramConfigs:
+        - botToken:
+            name: telegram-alert-credentials
+            key: bot-token
+          chatID: 7824600600
+          parseMode: "HTML"
+          message: |
+            🚨 <b>HiveBox Anomaly Detected</b>
+
+            <b>الخطورة:</b> {{ .CommonLabels.severity }}
+            <b>الوصف:</b> {{ .CommonAnnotations.description }}
+            <b>الوقت:</b> {{ .CommonAnnotations.summary }}
